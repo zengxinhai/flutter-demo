@@ -1,0 +1,9 @@
+POST https://uat.yorecard.com/api/auth/token/get
+Content-Type: application/json
+
+{
+    "email": "zengxinhai007@gmail.com",
+    "password": "Karbon123"
+}
+###
+
