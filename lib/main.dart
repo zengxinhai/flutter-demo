@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import './lena_anderson.dart';
+import './tab_view.dart';
 
 void main() {
   runApp(MaterialApp(
     title: 'Named Routes Demo',
     initialRoute: '/',
     routes: {
-      '/': (context) => ContactScreen(),
+      '/': (context) => TabView(),
     },
   ));
 }
