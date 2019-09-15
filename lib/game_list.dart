@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './game_service.dart';
 
 class GameListScreen extends StatelessWidget {
   @override
@@ -17,21 +18,34 @@ class GameListScreen extends StatelessWidget {
 class GameList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final playerALogo = 'https://images.cdn2.stockunlimited.net/preview1300/football-club-logo_1527032.jpg';
-    final playerBLogo = 'https://kassiesa.net/uefa/clubs/images/Alki-Larnaca.png';
-    final playerCLogo = 'https://upload.wikimedia.org/wikipedia/commons/f/f5/Yebo_Yes_United_Football_Club_Logo.jpg';
-    final playerDLogo = 'https://www.pngfind.com/pngs/m/105-1051844_wembley-football-club-wembley-fc-logo-hd-png.png';
-    final playerELogo = 'https://www.pinclipart.com/picdir/middle/357-3577659_rangers-logo-png-rangers-football-club-logo-clipart.png';
-    final playerFLogo = 'http://whitleybayfc.com/wp-content/uploads/2017/03/logo1.png';
-    final playerGLogo = 'https://www.pngkey.com/png/detail/161-1617054_carnegie-kings-american-football-club-kings-football-logo.png';
-
-    return ListView(
-      children: <Widget>[
-        createGameListItem('Arsenal', playerALogo, 'Chelsea', playerBLogo, 'Yesterday, 2019.09.06'),
-        createGameListItem('Chelsea', playerBLogo, 'Liverpool', playerCLogo, 'Today, 2019.09.07'),
-        createGameListItem('Manchester United', playerDLogo, 'Newcastle United', playerELogo, 'Tomorrow, 2019.09.08'),
-        createGameListItem('Leicester City', playerFLogo, 'Watford', playerGLogo, 'Tomorrow, 2019.09.08')
-      ]
+    return FutureBuilder(
+      future: getGameList(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        switch (snapshot.connectionState) {
+        case ConnectionState.none:
+          return Text('Press button to start.');
+        case ConnectionState.active:
+        case ConnectionState.waiting:
+          return Text('Awaiting result...');
+        case ConnectionState.done: {
+          if (snapshot.hasError)
+            return Text('Error: ${snapshot.error}');
+          final gameList = snapshot.data['data']['list'];
+          return ListView.builder(
+            itemCount: gameList.length,
+            itemBuilder: (context, index) {
+              return createGameListItem(
+                gameList[index]['home_name'],
+                gameList[index]['home_icon'],
+                gameList[index]['guest_name'],
+                gameList[index]['guest_icon'],
+                gameList[index]['start_at'],
+              );
+            },
+          );
+        }
+        }
+      }
     );
   }
 }
@@ -86,11 +100,12 @@ Widget createGameVsContent(String player1, String icon1, String player2, String 
 
 Widget createGamePlayerDisplay(String playerName, String playerImgUrl) {
   return SizedBox(
-    width: 160,
+    width: 180,
     child: Column(
       children: <Widget>[
         Text(playerName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        Image.network(playerImgUrl, width: 80, height: 80),
+        SizedBox(height: 10),
+        Image.network(playerImgUrl, width: 60, height: 60),
       ]
     ),
   );
