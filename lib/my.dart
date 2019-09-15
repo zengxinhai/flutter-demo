@@ -10,6 +10,7 @@ class MyScreen extends StatelessWidget {
         Divider(),
         SizedBox(height: 10),
         BetHistory(),
+        SizedBox(height: 10),
         createHistoryItem('Real Madrid vs Barcelona', '0.1 ETH', 'Not Played'),
         Divider(),
         createHistoryItem('AAA vc BBB', '0.2ETH', 'You win!'),
@@ -27,7 +28,7 @@ class BetHistory extends StatelessWidget {
     return Column(
       children: <Widget>[
         Center(child: Text('History', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
-        SizedBox(height: 10),
+        SizedBox(height: 20),
         Container(
           color: Color.fromARGB(50, 150, 137, 140),
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
