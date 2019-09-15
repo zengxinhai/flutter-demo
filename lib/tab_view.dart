@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './game_list.dart';
+import './my.dart';
 
 class TabView extends StatelessWidget {
   @override
@@ -20,7 +21,7 @@ class TabView extends StatelessWidget {
           body: TabBarView(
             children: [
               GameList(),
-              Text('My'),
+              MyScreen()
             ],
           ),
         ),
